@@ -4,7 +4,6 @@ services:
     name: anonymous-chat-backend
     env: node
     region: oregon
-    plan: free
     rootDir: backend
     buildCommand: npm install
     startCommand: npm start
@@ -29,7 +28,6 @@ services:
   - type: web
     name: anonymous-chat-frontend
     env: static
-    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: ./dist
