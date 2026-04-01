@@ -1,0 +1,146 @@
+.message-wrapper {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.message-wrapper.own {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.message-wrapper.other {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.message-username {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  padding: 0 0.5rem;
+}
+
+body.light .message-username {
+  color: #666;
+}
+
+body.dark .message-username {
+  color: #aaa;
+}
+
+.message-wrapper.own .message-username {
+  color: var(--primary-color);
+}
+
+.message-bubble {
+  padding: 0.75rem 1rem;
+  border-radius: 18px;
+  word-wrap: break-word;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+body.light .message-bubble {
+  background-color: var(--message-bg-light);
+  color: var(--text-light);
+}
+
+body.dark .message-bubble {
+  background-color: var(--message-bg-dark);
+  color: var(--text-dark);
+}
+
+.message-wrapper.own .message-bubble {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+}
+
+.message-text {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 0.3rem;
+}
+
+.message-time {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  text-align: right;
+}
+
+.system-message {
+  align-self: center;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  opacity: 0.7;
+  max-width: 80%;
+}
+
+body.light .system-message {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #666;
+}
+
+body.dark .system-message {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #aaa;
+}
+
+@media (max-width: 768px) {
+  .message-wrapper {
+    max-width: 85%;
+  }
+  
+  .message-text {
+    font-size: 0.9rem;
+  }
+  
+  .message-bubble {
+    padding: 0.65rem 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .message-wrapper {
+    max-width: 90%;
+  }
+  
+  .message-username {
+    font-size: 0.75rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .message-bubble {
+    padding: 0.6rem 0.75rem;
+    border-radius: 16px;
+  }
+  
+  .message-text {
+    font-size: 0.85rem;
+    line-height: 1.3;
+  }
+  
+  .message-time {
+    font-size: 0.7rem;
+  }
+  
+  .system-message {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+    max-width: 90%;
+  }
+}
