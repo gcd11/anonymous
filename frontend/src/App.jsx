@@ -49,48 +49,56 @@ function App() {
   
   // Socket connection and event handlers
   useEffect(() => {
+    console.log('🚀 [APP] Initializing socket connection...');
+    console.log('🚀 [APP] Username:', username);
+    console.log('🚀 [APP] Room:', room);
+    
     // Connect to socket
     socket.connect();
     
     // Connection handlers
     socket.on('connect', () => {
-      console.log('Connected to server');
+      console.log('✅ [APP] Connected to server');
       setIsConnected(true);
+      console.log('📤 [APP] Emitting join event with:', { username, room });
       socket.emit('join', { username, room });
     });
     
     socket.on('disconnect', () => {
-      console.log('Disconnected from server');
+      console.log('❌ [APP] Disconnected from server');
       setIsConnected(false);
     });
     
     // Message handlers
     socket.on('receiveMessage', (message) => {
+      console.log('📨 [APP] Received message:', message);
       setMessages(prev => [...prev, message]);
     });
     
     // User join/leave handlers
     socket.on('userJoined', (data) => {
-      console.log(data.message);
+      console.log('👋 [APP] User joined:', data.message);
     });
     
     socket.on('userLeft', (data) => {
-      console.log(data.message);
+      console.log('👋 [APP] User left:', data.message);
     });
     
     // Online count handler
     socket.on('onlineCount', (count) => {
+      console.log('👥 [APP] Online count updated:', count);
       setOnlineCount(count);
     });
     
     // Typing indicator handler
     socket.on('userTyping', ({ users }) => {
+      console.log('⌨️ [APP] Users typing:', users);
       setTypingUsers(users.filter(u => u !== username));
     });
     
     // Error handler
     socket.on('error', (error) => {
-      console.error('Socket error:', error);
+      console.error('❌ [APP] Socket error:', error);
       alert(error.message || 'An error occurred');
     });
     
@@ -110,20 +118,31 @@ function App() {
   
   // Send message handler
   const handleSendMessage = useCallback((message) => {
+    console.log('📤 [APP] handleSendMessage called');
+    console.log('📤 [APP] Message:', message);
+    console.log('📤 [APP] Is connected:', isConnected);
+    console.log('📤 [APP] Socket connected:', socket.connected);
+    
     if (!isConnected) {
+      console.error('❌ [APP] Cannot send message - not connected to server');
       alert('Not connected to server. Please wait...');
       return;
     }
     
-    socket.emit('sendMessage', {
+    const messageData = {
       username,
       message,
       room
-    });
+    };
+    
+    console.log('📤 [APP] Emitting sendMessage event with data:', messageData);
+    socket.emit('sendMessage', messageData);
+    console.log('✅ [APP] sendMessage event emitted');
   }, [username, room, isConnected]);
   
   // Typing handler
   const handleTyping = useCallback((isTyping) => {
+    console.log('⌨️ [APP] Typing event:', isTyping);
     socket.emit('typing', {
       username,
       room,

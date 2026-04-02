@@ -30,6 +30,8 @@ const io = new Server(httpServer, {
   pingInterval: 25000
 });
 
+console.log('🔧 [SERVER] Socket.io initialized with CORS origin:', process.env.CORS_ORIGIN || 'http://localhost:5173');
+
 // Connect to MongoDB
 connectDB();
 
@@ -95,10 +97,11 @@ cron.schedule('0 * * * *', async () => {
 // Start server - bind to 0.0.0.0 to accept connections from any network interface
 const PORT = process.env.PORT || 5000;
 httpServer.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📡 Socket.io server ready`);
-  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🌐 Access from network: http://192.168.1.29:${PORT}`);
+  console.log(`🚀 [SERVER] Server running on port ${PORT}`);
+  console.log(`📡 [SERVER] Socket.io server ready`);
+  console.log(`🌍 [SERVER] Environment: ${process.env.NODE_ENV || 'development'}`);
+  console.log(`🔧 [SERVER] CORS Origin: ${process.env.CORS_ORIGIN || 'http://localhost:5173'}`);
+  console.log(`🌐 [SERVER] Access from network: http://192.168.1.29:${PORT}`);
 });
 
 // Graceful shutdown

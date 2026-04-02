@@ -33,9 +33,21 @@ const MessageInput = ({ onSendMessage, typingUsers, onTyping }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    if (message.trim().length === 0) return;
-    if (message.length > maxLength) return;
+    console.log('📝 [MessageInput] Form submitted');
+    console.log('📝 [MessageInput] Message:', message);
+    console.log('📝 [MessageInput] Message length:', message.length);
+    console.log('📝 [MessageInput] Trimmed length:', message.trim().length);
     
+    if (message.trim().length === 0) {
+      console.warn('⚠️ [MessageInput] Message is empty, not sending');
+      return;
+    }
+    if (message.length > maxLength) {
+      console.warn('⚠️ [MessageInput] Message too long, not sending');
+      return;
+    }
+    
+    console.log('✅ [MessageInput] Calling onSendMessage with:', message.trim());
     onSendMessage(message.trim());
     setMessage('');
     setIsTyping(false);
