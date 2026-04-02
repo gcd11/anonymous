@@ -19,10 +19,13 @@ dotenv.config();
 const app = express();
 const httpServer = createServer(app);
 
+// Normalize CORS origin (remove trailing slash if present)
+const corsOrigin = (process.env.CORS_ORIGIN || 'http://localhost:5173').replace(/\/$/, '');
+
 // Initialize Socket.io with CORS
 const io = new Server(httpServer, {
   cors: {
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+    origin: corsOrigin,
     methods: ['GET', 'POST'],
     credentials: true
   },
@@ -30,7 +33,7 @@ const io = new Server(httpServer, {
   pingInterval: 25000
 });
 
-console.log('🔧 [SERVER] Socket.io initialized with CORS origin:', process.env.CORS_ORIGIN || 'http://localhost:5173');
+console.log('🔧 [SERVER] Socket.io initialized with CORS origin:', corsOrigin);
 
 // Connect to MongoDB
 connectDB();
@@ -39,7 +42,7 @@ connectDB();
 app.use(helmet()); // Security headers
 app.use(compression()); // Compress responses
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+  origin: corsOrigin,
   credentials: true
 }));
 app.use(express.json());
@@ -100,7 +103,7 @@ httpServer.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 [SERVER] Server running on port ${PORT}`);
   console.log(`📡 [SERVER] Socket.io server ready`);
   console.log(`🌍 [SERVER] Environment: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`🔧 [SERVER] CORS Origin: ${process.env.CORS_ORIGIN || 'http://localhost:5173'}`);
+  console.log(`🔧 [SERVER] CORS Origin: ${corsOrigin}`);
   console.log(`🌐 [SERVER] Access from network: http://192.168.1.29:${PORT}`);
 });
 
